@@ -11,18 +11,18 @@ class Quantile():
 def generate_quantile():
     seed = randint(0, 3)
     if seed == 0:
-        return Quantile("cuartil", "Q", 1, 4)
+        return Quantile("cuartil", "Q", 1, 3)
     elif seed == 1:
-        return Quantile("decil", "D", 1, 10)
+        return Quantile("decil", "D", 1, 9)
     else:
-        return Quantile("percentil", "P", 1, 100)
+        return Quantile("percentil", "P", 1, 99)
     
 def generate_question(quantile):
     num = randint(quantile.inf, quantile.sup)
     return f"Una interpretación del {quantile.name} {num} es...", num
 
 def generate_good_answer(quantile, num):
-    n = randint(0, 4)
+    n = randint(0, 3)
     left = 100//quantile.sup*num
     right = 100 - left
 
@@ -57,5 +57,6 @@ def generate_problem():
     question, num = generate_question(quantile)
     good_answer = generate_good_answer(quantile, num)
     others_answers = generate_others_answers(quantile, num)
+    others_answers.append(good_answer)
 
-    return {"question":question, "answer":good_answer, "others":others_answers}
+    return {"question":question, "answer":good_answer, "others":sample(others_answers, 4)}
