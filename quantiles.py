@@ -23,7 +23,7 @@ def generate_question(quantile):
 
 def generate_good_answer(quantile, num):
     n = randint(0, 3)
-    left = 100//quantile.sup*num
+    left = 100//(quantile.sup+1)*num
     right = 100 - left
 
     if n == 0:
@@ -36,11 +36,11 @@ def generate_good_answer(quantile, num):
         return f"El {right}% de los datos son mayores o iguales al {quantile.name} {num}."
     
 def generate_others_answers(quantile, num):
-    left = 100//quantile.sup*num
+    left = 100//(quantile.sup+1)*num
     right = 100 - left
 
     if left == right:
-        left = 100//quantile.sup*(num//2)
+        left = 100//(quantile.sup+1)*(num//2)
         right = 100 - left
     
     responses = [
@@ -60,3 +60,5 @@ def generate_problem():
     others_answers.append(good_answer)
 
     return {"question":question, "answer":good_answer, "others":sample(others_answers, 4)}
+
+print(generate_problem())
