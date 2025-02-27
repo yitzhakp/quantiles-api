@@ -9,8 +9,7 @@ class Quantile():
         self.sup = sup
 
 def generate_quantile():
-    #seed = randint(0, 3)
-    seed = 2
+    seed = randint(0, 3)
     if seed == 0:
         return Quantile("cuartil", "Q", 1, 3)
     elif seed == 1:
