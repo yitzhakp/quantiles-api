@@ -8,11 +8,14 @@ class Quantile():
         self.inf = inf
         self.sup = sup
 
-def generate_quantile():
-    seed = randint(0, 3)
-    if seed == 0:
+def generate_quantile(data):
+    quantiles = ['cuartil', 'decil', 'percentil']
+    possible_quantiles = [quantiles[i] for i, j in enumerate(data) if j]
+    
+    seed = randint(0, len(possible_quantiles)-1)
+    if possible_quantiles[seed] == "cuartil":
         return Quantile("cuartil", "Q", 1, 3)
-    elif seed == 1:
+    elif possible_quantiles[seed] == "decil":
         return Quantile("decil", "D", 1, 9)
     else:
         return Quantile("percentil", "P", 1, 99)
@@ -27,13 +30,13 @@ def generate_good_answer(quantile, num):
     right = 100 - left
 
     if n == 0:
-        return f"El {quantile.name} {num} es mayor o igual al {left}% de los datos."
+        return f"El {quantile.name} {num} es mayor o igual que al menos el {left}% de los datos."
     elif n == 1:
-        return f"El {quantile.name} {num} es menor o igual al {right}% de los datos."
+        return f"El {quantile.name} {num} es menor o igual que al menos el {right}% de los datos."
     elif n == 2:
-        return f"El {left}% de los datos son menores o iguales al {quantile.name} {num}."
+        return f"Al menos el {left}% de los datos son menores o iguales al {quantile.name} {num}."
     else:
-        return f"El {right}% de los datos son mayores o iguales al {quantile.name} {num}."
+        return f"Al menos el {right}% de los datos son mayores o iguales al {quantile.name} {num}."
     
 def generate_others_answers(quantile, num):
     left = 100//(quantile.sup+1)*num
@@ -44,16 +47,16 @@ def generate_others_answers(quantile, num):
         right = 100 - left
     
     responses = [
-        f"El {quantile.name} {num} es menor o igual al {left}% de los datos.",
-        f"El {quantile.name} {num} es mayor o igual al {right}% de los datos.",
-        f"El {left}% de los datos son mayores o iguales al {quantile.name} {num}.",
-        f"El {right}% de los datos son menores o iguales al {quantile.name} {num}."
+        f"El {quantile.name} {num} es menor o igual que al menos el {left}% de los datos.",
+        f"El {quantile.name} {num} es mayor o igual que al menos el {right}% de los datos.",
+        f"Al menos el {left}% de los datos son mayores o iguales al {quantile.name} {num}.",
+        f"Al menos el {right}% de los datos son menores o iguales al {quantile.name} {num}."
     ]
 
     return sample(responses, 3)
 
-def generate_problem():
-    quantile = generate_quantile()
+def generate_problem(data):
+    quantile = generate_quantile(data)
     question, num = generate_question(quantile)
     good_answer = generate_good_answer(quantile, num)
     others_answers = generate_others_answers(quantile, num)
@@ -61,4 +64,3 @@ def generate_problem():
 
     return {"question":question, "answer":good_answer, "others":sample(others_answers, 4)}
 
-print(generate_problem())

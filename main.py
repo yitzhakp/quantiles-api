@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from quantiles import generate_problem
 
@@ -14,5 +14,7 @@ app.add_middleware(
 
 
 @app.get("/")
-def generate_quantile_problem():
-    return generate_problem()
+def generate_quantile_problem(cuartil: bool = Query(None), decil: bool = Query(None), percentil: bool = Query(None)):
+    if cuartil or decil or percentil:
+        return generate_problem([cuartil, decil, percentil])
+    return generate_problem([True, True, True])
