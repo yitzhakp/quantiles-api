@@ -66,7 +66,7 @@ def generate_problem(data):
     indexGoodAnswer = newOrder.index(good_answer)
     finalGoodAnswer = f"{option[indexGoodAnswer]}. {good_answer}"
     answers = []
-    for index, i in enumerate(sample(others_answers, 4)):
+    for index, i in enumerate(newOrder):
       answers.append(f"{option[index]}. {i}")
         
     return {"question":question, "answer":finalGoodAnswer, "others":answers}
