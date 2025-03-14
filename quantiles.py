@@ -61,6 +61,10 @@ def generate_problem(data):
     good_answer = generate_good_answer(quantile, num)
     others_answers = generate_others_answers(quantile, num)
     others_answers.append(good_answer)
-
-    return {"question":question, "answer":good_answer, "others":sample(others_answers, 4)}
+    option = ["A", "B", "C", "D"] 
+    answers = []
+    for index, i in enumerate(sample(others_answers, 4)):
+      answers.append(f"{option[index]}. {i}")
+        
+    return {"question":question, "answer":good_answer, "others":answers}
 
